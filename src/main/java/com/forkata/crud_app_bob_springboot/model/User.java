@@ -53,6 +53,19 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public String listOfRoles(){
+        StringBuilder sb = new StringBuilder();
+
+
+
+        roles.forEach(r -> {
+            sb.append(r.name());
+            sb.append(", ");
+        });
+        sb.delete(sb.length()-2, sb.length()-1);
+        return sb.toString();
+    }
+
     public void addRole(Role role) {
         this.roles.add(role);
     }

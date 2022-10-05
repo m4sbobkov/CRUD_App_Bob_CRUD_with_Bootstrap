@@ -41,7 +41,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        repository.save(user);
+
+        user.setPassword(PasswordEncoder().encode(user.getPassword()));
+        User updatedUser = repository.findById(user.getId()).get();
+
+        updatedUser.setName(user.getName());
+        updatedUser.setAge(user.getAge());
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setUsername(user.getUsername());
+        updatedUser.setPassword(user.getPassword());
+        updatedUser.setRoles(user.getRoles());
+
+        repository.save(updatedUser);
     }
 
     @Override
@@ -52,11 +63,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public void makeAdmin(User user) {
-        user.addRole(Role.ADMIN);
-        repository.save(user);
-    }
 
 
     @Override

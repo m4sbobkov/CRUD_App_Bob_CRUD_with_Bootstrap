@@ -18,6 +18,6 @@ public interface UserService extends UserDetailsService {
 
     void create(User user);
 
-    void makeAdmin(User user);
+
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Set;
 
 
@@ -24,18 +25,14 @@ public class AdminController {
 
     }
 
-
     @GetMapping("/users")
-    public String showAllUsers(Model model) {
+    public String showAllUsers(Principal principal, Model model,@ModelAttribute("user") User user) {
         model.addAttribute("users", service.listUsers());
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("currentUser", (User)service.loadUserByUsername(principal.getName()));
         return "users";
     }
 
-    @GetMapping("/new")
-    public String createUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", Role.values());
-        return "addUser";
-    }
 
     @PostMapping
     public String addUser(@ModelAttribute("user") User user,
@@ -45,36 +42,25 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/user/{id}")
-    public String userInfo(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", service.userById(id));
 
-        return "user";
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public User getUser(@PathVariable("id") Long id) {
+        return service.userById(id);
     }
 
-    @PatchMapping("/{id}/makeadmin")
-    public String makeAdmin(@PathVariable("id") Long id) {
-        service.makeAdmin(service.userById(id));
-        return "redirect:/admin/users";
-    }
 
-    @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", service.userById(id));
-        model.addAttribute("roles", Role.values());
-        return "editUser";
-    }
-
-    @PatchMapping("/{id}")
+    @PatchMapping("/edit")
     public String updateUser(@ModelAttribute("user") User user, @RequestParam Set<Role> roles) {
         user.setRoles(roles);
         service.save(user);
         return "redirect:/admin/users";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        service.delete(id);
+
+    @DeleteMapping("/delete")
+    public String deleteUser(@ModelAttribute("user") User user) {
+        service.delete(user.getId());
         return "redirect:/admin/users";
     }
 
