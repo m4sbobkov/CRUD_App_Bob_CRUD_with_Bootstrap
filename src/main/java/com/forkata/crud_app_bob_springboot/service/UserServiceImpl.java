@@ -5,10 +5,8 @@ import com.forkata.crud_app_bob_springboot.model.Role;
 import com.forkata.crud_app_bob_springboot.model.User;
 import com.forkata.crud_app_bob_springboot.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +17,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UsersRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserServiceImpl(UsersRepository repository) {
+    public UserServiceImpl(UsersRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
 
-        user.setPassword(PasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User updatedUser = repository.findById(user.getId()).get();
 
         updatedUser.setName(user.getName());
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(User user) {
-        user.setPassword(PasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.addRole(Role.USER);
         repository.save(user);
 
@@ -79,10 +79,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Bean
-    public PasswordEncoder PasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
 
 }
