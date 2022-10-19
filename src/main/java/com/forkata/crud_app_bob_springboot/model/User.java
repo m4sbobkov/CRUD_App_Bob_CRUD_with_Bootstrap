@@ -2,11 +2,8 @@ package com.forkata.crud_app_bob_springboot.model;
 
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +11,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +41,14 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public User(String name, Integer age, String email, String username, String password, Set<Role> roles) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 
     public User(String name, Integer age, String email, String username, String password) {
         this.name = name;
@@ -53,46 +58,20 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String listOfRoles(){
+    public String listOfRoles() {
         StringBuilder sb = new StringBuilder();
-
 
 
         roles.forEach(r -> {
             sb.append(r.name());
             sb.append(", ");
         });
-        sb.delete(sb.length()-2, sb.length()-1);
+        sb.delete(sb.length() - 2, sb.length() - 1);
         return sb.toString();
     }
 
     public void addRole(Role role) {
         this.roles.add(role);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
 

@@ -29,7 +29,7 @@ public class AdminController {
     public String showAllUsers(Principal principal, Model model,@ModelAttribute("user") User user) {
         model.addAttribute("users", service.listUsers());
         model.addAttribute("roles", Role.values());
-        model.addAttribute("currentUser", (User)service.loadUserByUsername(principal.getName()));
+        model.addAttribute("currentUser", service.getByUsername(principal.getName()));
         return "users";
     }
 

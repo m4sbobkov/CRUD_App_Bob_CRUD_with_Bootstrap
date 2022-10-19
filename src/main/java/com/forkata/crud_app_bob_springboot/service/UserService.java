@@ -10,6 +10,8 @@ public interface UserService extends UserDetailsService {
 
     List<User> listUsers();
 
+    User getByUsername(String username);
+
     User userById(Long id);
 
     void save(User user);
@@ -17,7 +19,5 @@ public interface UserService extends UserDetailsService {
     void delete(Long id);
 
     void create(User user);
-
-
 
 }

@@ -2,8 +2,6 @@ package com.forkata.crud_app_bob_springboot.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-
 
 public enum Role implements GrantedAuthority {
     ADMIN,

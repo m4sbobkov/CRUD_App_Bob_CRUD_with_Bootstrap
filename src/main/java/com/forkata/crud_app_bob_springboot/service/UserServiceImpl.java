@@ -28,9 +28,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-
     public List<User> listUsers() {
         return repository.findAll();
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        return repository.findByUsername(username).orElseThrow();
     }
 
     @Override
@@ -58,12 +62,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.addRole(Role.USER);
+        if (user.getRoles().isEmpty()) {
+            user.addRole(Role.USER);
+        }
         repository.save(user);
 
     }
-
-
 
     @Override
     public void delete(Long id) {
@@ -72,14 +76,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByUsername(username);
+        User user = repository.findByUsername(username).get();
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return user;
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getRoles());
     }
-
-
 
 
 }
