@@ -14,12 +14,12 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserRESTController {
+public class UserRestController {
 
     private final UserService service;
 
     @Autowired
-    public UserRESTController(UserService service) {
+    public UserRestController(UserService service) {
         this.service = service;
     }
 

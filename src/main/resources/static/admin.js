@@ -37,14 +37,14 @@ const listUsers = async (users) => {
                     </td> 
               </tr>`
         })
-        info.innerHTML = output;
+        info.innerHTML = output
     }
 }
 
 const updateUser = (user) => {
-    const index = users.findIndex(x => x.id === user.id);
-    users[index] = user;
-    listUsers(users);
+    const index = users.findIndex(x => x.id === user.id)
+    users[index] = user
+    listUsers(users)
 }
 
 
@@ -56,6 +56,7 @@ let loggedInUser = document.querySelector('#userInfo')
 fetch(userUrl)
     .then(res => res.json())
     .then(data => {
+        console.log(data)
         loggedInUser.innerHTML = `
                                 <td>${data.id}</td>
                                 <td>${data.name}</td>

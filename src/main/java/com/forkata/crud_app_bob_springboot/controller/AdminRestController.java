@@ -12,12 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/api/users")
-public class RESTController {
-
+public class AdminRestController {
     private final UserService service;
-
     @Autowired
-    public RESTController(UserService service) {
+    public AdminRestController(UserService service) {
         this.service = service;
     }
 

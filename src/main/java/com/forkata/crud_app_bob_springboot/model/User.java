@@ -4,8 +4,8 @@ package com.forkata.crud_app_bob_springboot.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -32,16 +32,19 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
 
 
     public User() {
     }
 
-    public User(String name, Integer age, String email, String username, String password, Set<Role> roles) {
+    public User(String name, Integer age, String email, String username, String password, List<Role> roles) {
         this.name = name;
         this.age = age;
         this.email = email;
@@ -60,10 +63,8 @@ public class User {
 
     public String listOfRoles() {
         StringBuilder sb = new StringBuilder();
-
-
         roles.forEach(r -> {
-            sb.append(r.name());
+            sb.append(r.getName());
             sb.append(", ");
         });
         sb.delete(sb.length() - 2, sb.length() - 1);
