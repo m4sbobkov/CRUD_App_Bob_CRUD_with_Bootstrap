@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -46,25 +47,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User updatedUser = repository.findById(user.getId()).orElseThrow();
-
-        updatedUser.setName(user.getName());
-        updatedUser.setAge(user.getAge());
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setUsername(user.getUsername());
-        updatedUser.setPassword(user.getPassword());
-        updatedUser.setRoles(user.getRoles());
-
-        repository.save(updatedUser);
+        System.out.println("in method: " + user);
+        if (user.getPassword().isEmpty()) {
+            if (repository.findByUsername(user.getUsername()).isPresent()) {
+                user.setPassword(repository.findByUsername(user.getUsername()).get().getPassword());
+            }
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        repository.save(user);
     }
 
     @Override
     public void create(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getRoles().isEmpty()) {
-            user.addRole(rolesRepository.getReferenceById(2));
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(List.of(rolesRepository.getReferenceById(2)));
         }
         repository.save(user);
 
@@ -77,8 +75,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByUsername(username).orElseThrow();
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getRoles());
+        Optional<User> user = repository.findByUsername(username);
+        return user.orElseThrow();
     }
 
 

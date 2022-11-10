@@ -2,15 +2,22 @@ const url = "http://localhost:8080/admin/api/users/"
 const userUrl = 'http://localhost:8080/api/user/'
 const info = document.querySelector('#users-list')
 const tabTrigger = new bootstrap.Tab(document.getElementById('nav-home-tab'))
-
+const adminRole = {
+    id: 1,
+    name: "ROLE_ADMIN"
+}
+const userRole = {
+    id: 2,
+    name: "ROLE_USER"
+}
 let users = [];
 
 
-const listUsers = async (users) => {
+const listUsers = async () => {
     const response = await fetch(url);
 
     if (response.ok) {
-        let json = await response.json()
+        await response.json()
             .then(data => fillUserRow(data));
     } else {
         alert("Îøèáêà HTTP: " + response.status);
@@ -26,7 +33,7 @@ const listUsers = async (users) => {
                     <td>${user.age}</td>
                     <td>${user.username}</td>
                     <td>${user.email}</td>
-                    <td>${user.roles}</td>
+                    <td>${user.roles.map(role => role.name === 'ROLE_USER' ? 'USER' : 'ADMIN')}</td>
               <td> 
                    <button type="button" data-action="edit" class="btn btn-info text-white"
                         data-toggle="modal" data-target="modal" id="edit-user" data-id="${user.id}">Edit</button>
@@ -63,7 +70,7 @@ fetch(userUrl)
                                 <td>${data.age}</td>
                                 <td>${data.username}</td>
                                 <td>${data.email}</td>
-                                <td>${data.roles}</td>
+                                <td>${data.roles.map(role => role.name === 'ROLE_USER' ? 'USER' : 'ADMIN')}</td>
                                 `
     })
 
@@ -96,10 +103,10 @@ newUserForm.addEventListener('submit', (event) => {
         newUser[key] = value
     })
     if (newUserAdminCheckbox.checked) {
-        newUser.roles.push("ADMIN")
+        newUser.roles.push(adminRole)
     }
     if (newUserUserCheckbox.checked) {
-        newUser.roles.push("USER")
+        newUser.roles.push(userRole)
     }
 
 
@@ -107,7 +114,7 @@ newUserForm.addEventListener('submit', (event) => {
         console.log(`${key} - ${value}`)
     }
 
-
+    console.log(JSON.stringify(newUser))
     fetch(url, {
         method: 'POST',
         headers: {
@@ -175,12 +182,12 @@ editUserForm.addEventListener('submit', (e) => {
     });
 
     if (updUserAdminCheckbox.checked) {
-        updUser.roles.push("ADMIN")
+        updUser.roles.push(adminRole)
     }
     if (updUserUserCheckbox.checked) {
-        updUser.roles.push("USER")
+        updUser.roles.push(userRole)
     }
-
+    console.log(JSON.stringify(updUser))
     fetch(url, {
         method: 'PUT',
         headers: {
@@ -192,7 +199,7 @@ editUserForm.addEventListener('submit', (e) => {
     })
         .then(data => updateUser(data))
         .catch((e) => console.error(e))
-
+    console.log(updUser)
     $("#edit-user-modal").modal("hide")
 })
 

@@ -1,5 +1,6 @@
 package com.forkata.crud_app_bob_springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -21,18 +22,15 @@ public class Role implements GrantedAuthority {
     @JoinTable(name = "users_role",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonBackReference
     private Set<User> users;
 
     public Role() {
     }
 
-    public Role(String name) {
-        this.name = name;
-    }
-
     @Override
     public String getAuthority() {
-        return name;
+        return getName();
     }
 
     public String getName() {
@@ -61,6 +59,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name;
+        return name.substring(5);
     }
 }

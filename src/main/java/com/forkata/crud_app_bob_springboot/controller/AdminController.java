@@ -34,36 +34,36 @@ public class AdminController {
         return "users";
     }
 
-//
-//    @PostMapping
-//    public String addUser(@ModelAttribute("user") User user,
-//                          @RequestParam List<Role> roles) {
-//        user.setRoles(roles);
-//        service.create(user);
-//        return "redirect:/admin/users";
-//    }
-//
-//
-//    @GetMapping("/get/{id}")
-//    @ResponseBody
-//    public User getUser(@PathVariable("id") Long id) {
-//        return service.userById(id);
-//    }
-//
-//
-//    @PatchMapping("/edit")
-//    public String updateUser(@ModelAttribute("user") User user, @RequestParam List<Role> roles) {
-//        user.setRoles(roles);
-//        service.save(user);
-//        return "redirect:/admin/users";
-//    }
-//
-//
-//    @DeleteMapping("/delete")
-//    public String deleteUser(@ModelAttribute("user") User user) {
-//        service.delete(user.getId());
-//        return "redirect:/admin/users";
-//    }
+
+    @PostMapping
+    public String addUser(@ModelAttribute("user") User user,
+                          @RequestParam List<Role> roles) {
+        user.setRoles(roles);
+        service.create(user);
+        return "redirect:/admin/users";
+    }
+
+
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public User getUser(@PathVariable("id") Long id) {
+        return service.userById(id);
+    }
+
+
+    @PatchMapping("/edit")
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam List<Role> roles) {
+        user.setRoles(roles);
+        service.save(user);
+        return "redirect:/admin/users";
+    }
+
+
+    @DeleteMapping("/delete")
+    public String deleteUser(@ModelAttribute("user") User user) {
+        service.delete(user.getId());
+        return "redirect:/admin/users";
+    }
 
 
 }

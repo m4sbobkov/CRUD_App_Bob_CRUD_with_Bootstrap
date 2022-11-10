@@ -10,6 +10,6 @@ fetch(url)
                                 <td>${data.age}</td>
                                 <td>${data.username}</td>
                                 <td>${data.email}</td>
-                                <td>${data.roles}</td>
+                                <td>${data.roles.map(role => role.name === 'ROLE_USER' ? 'USER' : 'ADMIN')}</td>
                                 `
     })
