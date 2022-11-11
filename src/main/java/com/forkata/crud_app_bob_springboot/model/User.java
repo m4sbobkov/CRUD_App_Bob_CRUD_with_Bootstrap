@@ -1,8 +1,6 @@
 package com.forkata.crud_app_bob_springboot.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,24 +40,21 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @JsonManagedReference
     private List<Role> roles;
 
 
     public User() {
     }
 
-
     public String listOfRoles() {
         StringBuilder sb = new StringBuilder();
         roles.forEach(r -> {
-            sb.append(r.getName());
+            sb.append(r);
             sb.append(", ");
         });
         sb.delete(sb.length() - 2, sb.length() - 1);
         return sb.toString();
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

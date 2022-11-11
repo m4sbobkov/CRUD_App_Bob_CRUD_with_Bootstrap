@@ -58,6 +58,8 @@
                            aria-controls="nav-profile" aria-selected="false">New User</a>
                     </nav>
                     <div class="tab-content border bg-white" id="nav-tabContent">
+
+                                <!-- User list-->
                         <div class="tab-pane fade show active" id="nav-userlist" role="tabpanel"
                              aria-labelledby="nav-home-tab">
 
@@ -87,6 +89,8 @@
                                 </table>
                             </div>
                         </div>
+
+                               <!--Add new user-->
                         <div class="tab-pane fade" id="nav-new-user" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div class="container-fluid">
                                 <div class="row bg-light border">
@@ -146,7 +150,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
@@ -187,18 +190,17 @@
     </div>
 </div>
 
-<!--Edit modal-->
+                                                      <!--Edit modal-->
 <div>
-
     <div class="modal fade" id="edit-user-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form id="editForm">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit user</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                </div>
-                <div class="modal-body text-center align-self-center" style=" width: 350px">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body text-center align-self-center" style=" width: 350px">
 
                         <div class="form-group mt-3">
                             <label for="edit-Id" class="form-label"><strong>Id</strong></label>
@@ -244,28 +246,28 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" value="Edit">Edit</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" value="Edit">Edit</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<!--Delete modal-->
+                                                  <!--Delete modal-->
 <div>
     <div class="modal fade" id="delete-user-modal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form id="deleteForm">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                </div>
-                <div class="modal-body text-center align-self-center" style=" width: 350px">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body text-center align-self-center" style=" width: 350px">
 
                         <div class="form-group mt-3">
                             <label for="delete-Id" class="form-label"><strong>Id</strong></label>
@@ -306,12 +308,12 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 
 @Entity
@@ -23,7 +23,7 @@ public class Role implements GrantedAuthority {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonBackReference
-    private Set<User> users;
+    private List<User> users;
 
     public Role() {
     }
@@ -49,11 +49,11 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public Set<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 

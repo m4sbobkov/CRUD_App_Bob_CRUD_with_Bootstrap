@@ -10,17 +10,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin/api/users")
 public class AdminRestController {
-    private final RoleService roleService;
+
     private final UserService service;
     @Autowired
-    public AdminRestController(UserService service, RoleService roleService) {
+    public AdminRestController(UserService service) {
         this.service = service;
-        this.roleService = roleService;
     }
 
     @GetMapping
@@ -39,14 +39,12 @@ public class AdminRestController {
 
     @PostMapping
     public ResponseEntity<?> addNewUser(@RequestBody User user) {
-        System.out.println("reqbody: "+user);
         service.create(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user) {
-        System.out.println("reqbody: "+user);
         service.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -55,14 +53,6 @@ public class AdminRestController {
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/roles")
-    public ResponseEntity<List<Role>> getRoles() {
-        List<Role> roles = roleService.findAll();
-        return roleService.findAll() != null
-                ? new ResponseEntity<>(roles, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

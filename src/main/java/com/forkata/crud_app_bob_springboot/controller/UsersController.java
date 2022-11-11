@@ -12,9 +12,7 @@ import java.security.Principal;
 
 @Controller
 public class UsersController {
-
     private final UserService service;
-
 
     @Autowired
     public UsersController(UserService service) {
@@ -24,7 +22,6 @@ public class UsersController {
     @GetMapping("/user")
     public String userInfo(Principal principal, Model model) {
         model.addAttribute("user", service.getByUsername(principal.getName()));
-
         return "user";
     }
 

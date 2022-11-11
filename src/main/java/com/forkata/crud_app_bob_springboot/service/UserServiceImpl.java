@@ -10,13 +10,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UsersRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final RolesRepository rolesRepository;
@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.rolesRepository = rolesRepository;
     }
-
 
     @Override
     public List<User> listUsers() {
@@ -47,7 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        System.out.println("in method: " + user);
         if (user.getPassword().isEmpty()) {
             if (repository.findByUsername(user.getUsername()).isPresent()) {
                 user.setPassword(repository.findByUsername(user.getUsername()).get().getPassword());
@@ -65,18 +63,17 @@ public class UserServiceImpl implements UserService {
             user.setRoles(List.of(rolesRepository.getReferenceById(2)));
         }
         repository.save(user);
-
     }
 
     @Override
     public void delete(Long id) {
+        repository.findById(id).orElseThrow().setRoles(Collections.emptyList());
         repository.deleteById(id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = repository.findByUsername(username);
-        return user.orElseThrow();
+        return repository.findByUsername(username).orElseThrow();
     }
 
 

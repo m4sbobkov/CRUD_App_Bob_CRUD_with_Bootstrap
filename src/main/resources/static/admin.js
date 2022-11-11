@@ -26,6 +26,7 @@ const listUsers = async () => {
     function fillUserRow(users) {
         output = ''
         users.forEach(user => {
+            console.log(user)
             output += ` 
               <tr> 
                     <td>${user.id}</td>
@@ -146,6 +147,8 @@ let updUserUserCheckbox = document.getElementById('edit-role-user')
 
 
 on(document, 'click', '#edit-user', e => {
+    updUserUserCheckbox.checked = false
+    updUserAdminCheckbox.checked = false
     const userInfo = e.target.parentNode.parentNode
     document.getElementById('edit-Id').value = userInfo.children[0].innerHTML
     document.getElementById('edit-name').value = userInfo.children[1].innerHTML
@@ -200,6 +203,7 @@ editUserForm.addEventListener('submit', (e) => {
         .then(data => updateUser(data))
         .catch((e) => console.error(e))
     console.log(updUser)
+
     $("#edit-user-modal").modal("hide")
 })
 
@@ -213,6 +217,8 @@ let currentUserId = null;
 
 
 on(document, 'click', '#delete-user', e => {
+    document.getElementById('delete-role-user').checked = false
+    document.getElementById('delete-role-admin').checked = false
     const userInfo = e.target.parentNode.parentNode
 
     currentUserId = userInfo.children[0].innerHTML
@@ -223,6 +229,7 @@ on(document, 'click', '#delete-user', e => {
     document.getElementById('delete-email').value = userInfo.children[4].innerHTML
     document.getElementById('delete-username').value = userInfo.children[3].innerHTML
     userInfo.children[5].innerHTML.split(',').forEach(role => {
+        console.log(role)
         if (role === 'USER') {
             document.getElementById('delete-role-user').checked = true
         }
@@ -246,6 +253,7 @@ deleteUserForm.addEventListener('submit', (e) => {
             removeUser(currentUserId);
             deleteUserForm.removeEventListener('submit', () => {
             });
+
             $("#delete-user-modal").modal("hide")
         })
 })
