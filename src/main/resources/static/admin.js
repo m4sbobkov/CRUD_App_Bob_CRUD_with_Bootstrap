@@ -23,6 +23,7 @@ const listUsers = async () => {
         alert("Îøèáêà HTTP: " + response.status);
     }
 
+
     function fillUserRow(users) {
         output = ''
         users.forEach(user => {
@@ -53,6 +54,7 @@ const updateUser = (user) => {
     const index = users.findIndex(x => x.id === user.id)
     users[index] = user
     listUsers(users)
+        .catch(err)
 }
 
 
@@ -82,13 +84,13 @@ fetch(url, {mode: 'cors'})
     .then(res => res.json())
     .then(data => {
         users = data;
-        listUsers(data)
+        listUsers(users)
+            .catch(err)
     })
 
 //Add user
 
 const newUserForm = document.getElementById('newUserForm')
-const newUserRoles = document.getElementById('newUser-checkbox')
 let newUserAdminCheckbox = document.getElementById('role-admin')
 let newUserUserCheckbox = document.getElementById('role-user')
 
@@ -110,12 +112,11 @@ newUserForm.addEventListener('submit', (event) => {
         newUser.roles.push(userRole)
     }
 
-
     for (let [key, value] of formData) {
         console.log(`${key} - ${value}`)
     }
-
     console.log(JSON.stringify(newUser))
+
     fetch(url, {
         method: 'POST',
         headers: {
@@ -164,8 +165,6 @@ on(document, 'click', '#edit-user', e => {
             updUserAdminCheckbox.checked = true
         }
     })
-
-
     $("#edit-user-modal").modal("show")
 })
 
@@ -210,7 +209,7 @@ editUserForm.addEventListener('submit', (e) => {
 // DELETE user
 const removeUser = (id) => {
     users = users.filter(user => user.id !== id);
-    listUsers(users);
+    listUsers(users)
 }
 
 let currentUserId = null;
@@ -248,7 +247,6 @@ deleteUserForm.addEventListener('submit', (e) => {
     fetch(url + currentUserId, {
         method: 'DELETE'
     })
-        .then()
         .then(() => {
             removeUser(currentUserId);
             deleteUserForm.removeEventListener('submit', () => {
